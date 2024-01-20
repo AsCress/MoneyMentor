@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import com.google.ai.client.generativeai.type.content
 import com.nikolovlazar.goodbyemoney.BuildConfig
+import com.nikolovlazar.goodbyemoney.models.Expense
+import io.realm.kotlin.ext.query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -35,7 +37,10 @@ class HomeViewModel: ViewModel() {
 
     fun questioning(userInput: String) {
         _uiState.value = HomeUiState.Loading
+        var expenses: List<Expense> = listOf()
         val prompt = "$userInput"
+
+        expenses = db.query<Expense>().find();
 
         viewModelScope.launch(Dispatchers.IO) {
 
