@@ -1,5 +1,6 @@
 package com.nikolovlazar.goodbyemoney
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.WindowManager
@@ -7,6 +8,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,6 +45,17 @@ class MainActivity : ComponentActivity() {
         }
 
         Scaffold(
+          floatingActionButton = {
+            FloatingActionButton(
+              onClick = {
+                val intent = Intent(this@MainActivity, AIActivity::class.java)
+                startActivity(intent)
+              }
+            ) {
+              Icon(Icons.Filled.Add,"")
+            }
+          }
+          ,
           bottomBar = {
             if (showBottomBar) {
               NavigationBar(containerColor = TopAppBarBackground) {

@@ -1,4 +1,7 @@
-package com.nikolovlazar.goodbyemoney
+package com.nikolovlaza
+
+import android.util.Log
+import com.nikolovlazar.goodbyemoney.db
 
 
 import androidx.lifecycle.ViewModel
@@ -40,7 +43,31 @@ class HomeViewModel: ViewModel() {
         var expenses: List<Expense> = listOf()
         val prompt = "$userInput"
 
-        expenses = db.query<Expense>().find();
+        expenses = db.query<Expense>().find()
+        var arraylist = ArrayList<String>()
+        var hashMap : HashMap<String,Int> = HashMap<String,Int>()
+        var ansmap : HashMap<String,Int> = HashMap<String,Int>()
+        for(items in expenses){
+            if(hashMap.containsKey(items.category?.name.toString())){
+                hashMap.put(items.category?.name.toString(),2)
+            }
+            else{
+                arraylist.add(items.category?.name.toString())
+            }
+        }
+        for(category in arraylist){
+            var sum=0
+            for(items in expenses){
+                if(items.category?.name  == category){
+                    sum+=items.amount.toInt()
+                }
+            }
+            ansmap.put(category,sum)
+        }
+        for(key in ansmap.keys){
+            Log.d("DATABASE",key.toString() + ansmap[key].toString())
+            //println(hashMap[key])
+        }
 
         viewModelScope.launch(Dispatchers.IO) {
 

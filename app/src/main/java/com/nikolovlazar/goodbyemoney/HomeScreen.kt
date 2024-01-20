@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,6 +15,7 @@ import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,7 +33,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.nikolovlaza.HomeUiState
+import com.nikolovlaza.HomeViewModel
 
 @Composable
 fun AppContent(viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
@@ -55,17 +60,15 @@ fun HomeScreen(uiState: HomeUiState = HomeUiState.Loading, onSendCliked: (String
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(text = "Gemini AI ChatBot")}, colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary, titleContentColor = MaterialTheme.colorScheme.onPrimary))
+            TopAppBar(title = { Text(text = "Gemini AI ChatBot")}, colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(
+                0xFF1B1B1B
+            ), titleContentColor = MaterialTheme.colorScheme.onPrimary))
         },
         bottomBar = {
             Column {
-                Row(modifier = Modifier.padding(vertical = 16.dp), verticalAlignment = Alignment.CenterVertically){
+                Row(modifier = Modifier.padding(vertical = 20.dp, horizontal = 30.dp), verticalAlignment = Alignment.CenterVertically){
 
-                    // Add image icon
-                    IconButton(onClick = {}, modifier = Modifier.padding(4.dp)){
-                        Icon(imageVector = Icons.Default.AddCircle , contentDescription = "Add Image")
-                    }
-
+                   // Divider(modifier = Modifier.height(5.dp))
                     // Input Field
                     OutlinedTextField(value = userQues, onValueChange = {
                         userQues = it
@@ -74,7 +77,9 @@ fun HomeScreen(uiState: HomeUiState = HomeUiState.Loading, onSendCliked: (String
                     )
 
                     // Send Button
-                    IconButton(onClick = {
+                    IconButton(
+                        modifier = Modifier
+                        ,onClick = {
                         if(userQues.isNotBlank()) {
                             onSendCliked(userQues)
                         }
