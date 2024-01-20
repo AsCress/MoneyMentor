@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Send
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -19,6 +22,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -34,7 +38,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.nikolovlaza.HomeUiState
 import com.nikolovlaza.HomeViewModel
 
@@ -60,26 +67,30 @@ fun HomeScreen(uiState: HomeUiState = HomeUiState.Loading, onSendCliked: (String
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(text = "Gemini AI ChatBot")}, colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(
-                0xFF1B1B1B
+            TopAppBar(title = { Text(  text = "Gemini AI ChatBot", fontSize = 20.sp,textAlign = TextAlign.Center)}, colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(
+                0xFF313030
             ), titleContentColor = MaterialTheme.colorScheme.onPrimary))
         },
         bottomBar = {
             Column {
-                Row(modifier = Modifier.padding(vertical = 20.dp, horizontal = 30.dp), verticalAlignment = Alignment.CenterVertically){
+                Row(modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp), verticalAlignment = Alignment.CenterVertically){
 
                    // Divider(modifier = Modifier.height(5.dp))
                     // Input Field
-                    OutlinedTextField(value = userQues, onValueChange = {
+                    OutlinedTextField(label = {
+                        Text(text = "Ask question", fontSize = 14.sp, color = Color(0xFFE5E7E9))
+                    },shape = RoundedCornerShape(20.dp),value = userQues, onValueChange = {
                         userQues = it
                     },
-                        placeholder = {Text(text = "Ask question")}, modifier = Modifier.fillMaxWidth(0.83f)
+                        //placeholder = {Text(text = "Ask question", fontSize = 14.sp)}, modifier = Modifier.fillMaxWidth(0.83f)
                     )
 
                     // Send Button
                     IconButton(
-                        modifier = Modifier
-                        ,onClick = {
+
+                        //modifier = Modifier.padding(horizontal = 10.dp),
+                        //colors =  ButtonColors = ButtonDefaults.buttonColors()
+                        onClick = {
                         if(userQues.isNotBlank()) {
                             onSendCliked(userQues)
                         }
