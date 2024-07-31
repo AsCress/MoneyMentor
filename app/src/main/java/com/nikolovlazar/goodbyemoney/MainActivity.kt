@@ -2,6 +2,7 @@ package com.nikolovlazar.goodbyemoney
 
 import android.content.Intent
 import android.content.res.Configuration
+import com.nikolovlazar.goodbyemoney.db
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -149,7 +150,7 @@ class MainActivity : ComponentActivity() {
                     .fillMaxSize()
                     .padding(innerPadding),
                 ) {
-                  Add(navController)
+                  Add(applicationContext, navController)
                 }
               }
               composable("settings") {
@@ -183,7 +184,7 @@ fun Greeting(name: String) {
   Text(text = "Hello $name!")
 }
 
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
   GoodbyeMoneyTheme {

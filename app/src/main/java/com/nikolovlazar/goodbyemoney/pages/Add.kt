@@ -1,5 +1,6 @@
 package com.nikolovlazar.goodbyemoney.pages
 
+import android.content.Context
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,7 +31,7 @@ import com.nikolovlazar.goodbyemoney.viewmodels.AddViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
+fun Add(context: Context, navController: NavController, vm: AddViewModel = viewModel()) {
   val state by vm.uiState.collectAsState()
 
   val recurrences = listOf(
@@ -127,12 +128,12 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
           thickness = 1.dp,
           color = DividerColor
         )
-        TableRow(label = "Note", detailContent = {
+        TableRow(label = "Remark", detailContent = {
           UnstyledTextField(
-            value = state.note,
-            placeholder = { Text("Leave some notes") },
+            value = state.remark,
+            placeholder = { Text("Enter remark") },
             arrangement = Arrangement.End,
-            onValueChange = vm::setNote,
+            onValueChange = vm::setRemark,
             modifier = Modifier.fillMaxWidth(),
             textStyle = TextStyle(
               textAlign = TextAlign.Right,
@@ -144,45 +145,24 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
           thickness = 1.dp,
           color = DividerColor
         )
-        TableRow(label = "Category", detailContent = {
-          var categoriesMenuOpened by remember {
-            mutableStateOf(false)
-          }
-          TextButton(
-            onClick = { categoriesMenuOpened = true }, shape = Shapes.large
-          ) {
-            Text(
-              state.category?.name ?: "Select a category first",
-              color = state.category?.color ?: Color.White
-            )
-            DropdownMenu(expanded = categoriesMenuOpened,
-              onDismissRequest = { categoriesMenuOpened = false }) {
-              state.categories?.forEach { category ->
-                DropdownMenuItem(text = {
-                  Row(verticalAlignment = Alignment.CenterVertically) {
-                    Surface(
-                      modifier = Modifier.size(10.dp),
-                      shape = CircleShape,
-                      color = category.color
-                    ) {}
-                    Text(
-                      category.name, modifier = Modifier.padding(start = 8.dp)
-                    )
-                  }
-                }, onClick = {
-                  vm.setCategory(category)
-                  categoriesMenuOpened = false
-                })
-              }
-            }
-          }
-        })
+        TableRow(label = "Note", detailContent = {
+        UnstyledTextField(
+          value = state.note,
+          placeholder = { Text("Leave some notes") },
+          arrangement = Arrangement.End,
+          onValueChange = vm::setNote,
+          modifier = Modifier.fillMaxWidth(),
+          textStyle = TextStyle(
+            textAlign = TextAlign.Right,
+          ),
+        )
+      })
       }
       Button(
-        onClick = vm::submitExpense,
+        onClick = { vm.submitExpense(context) },
         modifier = Modifier.padding(16.dp),
         shape = Shapes.large,
-        enabled = state.category != null
+        enabled = state.remark != ""
       ) {
         Text("Submit expense")
       }
@@ -195,6 +175,5 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
 fun PreviewAdd() {
   GoodbyeMoneyTheme {
     val navController = rememberNavController()
-    Add(navController = navController)
   }
 }

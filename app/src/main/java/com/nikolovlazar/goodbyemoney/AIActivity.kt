@@ -7,10 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.nikolovlazar.goodbyemoney.models.Expense
 import com.nikolovlazar.goodbyemoney.ui.theme.GoodbyeMoneyTheme
 import io.realm.kotlin.ext.query

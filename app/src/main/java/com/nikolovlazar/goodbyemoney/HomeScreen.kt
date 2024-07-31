@@ -45,11 +45,16 @@ import androidx.compose.ui.unit.sp
 import com.nikolovlaza.HomeUiState
 import com.nikolovlaza.HomeViewModel
 
+public var counter = 0;
 @Composable
 fun AppContent(viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
 
     val appUiState = viewModel.uiState.collectAsState()
 
+    if (counter == 0) {
+        viewModel.initalQuestioning()
+        counter++
+    }
     HomeScreen(uiState = appUiState.value) { inputText ->
 
         viewModel.questioning(userInput = inputText)
@@ -66,34 +71,38 @@ fun HomeScreen(uiState: HomeUiState = HomeUiState.Loading, onSendCliked: (String
     }
 
     Scaffold(
+
         topBar = {
-            TopAppBar(title = { Text(  text = "Gemini AI ChatBot", fontSize = 20.sp,textAlign = TextAlign.Center)}, colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(
-                0xFF313030
+            TopAppBar(title = { Text(  text = "FinBot", fontSize = 20.sp, textAlign = TextAlign.Center)}, colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(
+                0xFF000000
             ), titleContentColor = MaterialTheme.colorScheme.onPrimary))
         },
         bottomBar = {
-            Column {
-                Row(modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp), verticalAlignment = Alignment.CenterVertically){
+            Column(modifier = Modifier.padding(1.dp)) {
+                Row(modifier = Modifier.padding(vertical = 5.dp, horizontal = 5.dp), verticalAlignment = Alignment.CenterVertically){
 
-
+                    // Divider(modifier = Modifier.height(5.dp))
                     // Input Field
-                    OutlinedTextField(label = {
-                        Text(text = "Ask question", fontSize = 14.sp, color = Color(0xFFE5E7E9))
-                    },shape = RoundedCornerShape(20.dp),value = userQues, onValueChange = {
-                        userQues = it
-                    },
-
+                    OutlinedTextField(
+                        // maxLines = 1,
+                        label = {
+                            Text(text = "Ask question", fontSize = 14.sp, color = Color(0xFFE5E7E9), textAlign = TextAlign.Start )
+                        },shape = RoundedCornerShape(20.dp),value = userQues, onValueChange = {
+                            userQues = it
+                        },
+                        //placeholder = {Text(text = "Ask question", fontSize = 14.sp)}, modifier = Modifier.fillMaxWidth(0.83f)
                     )
 
                     // Send Button
                     IconButton(
 
-
+                        modifier = Modifier.padding(horizontal = 5.dp),
+                        //colors =  ButtonColors = ButtonDefaults.buttonColors()
                         onClick = {
-                        if(userQues.isNotBlank()) {
-                            onSendCliked(userQues)
-                        }
-                    }) {
+                            if(userQues.isNotBlank()) {
+                                onSendCliked(userQues)
+                            }
+                        }) {
                         Icon(
                             imageVector = Icons.Default.Send,
                             contentDescription = "Send"
@@ -116,19 +125,23 @@ fun HomeScreen(uiState: HomeUiState = HomeUiState.Loading, onSendCliked: (String
                 }
                 is HomeUiState.Success -> {
                     Card(modifier = Modifier
-                        .padding(vertical = 16.dp)
-                        .fillMaxWidth(), shape = MaterialTheme.shapes.large) {
-                        Text(text = uiState.outputText)
+                        .padding( horizontal = 5.dp)
+                        .fillMaxWidth(), shape = MaterialTheme.shapes.large,
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFF9F86C0)))
+                    {
+                        Text(text = uiState.outputText, modifier = Modifier.padding(15.dp))
                     }
                 }
                 is HomeUiState.Error -> {
                     Card(modifier = Modifier
-                        .padding(vertical = 16.dp)
+                        .padding( horizontal = 5.dp)
                         .fillMaxWidth(), shape = MaterialTheme.shapes.large,
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)) {
-                        Text(text = uiState.error)
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFF31C359))) {
+                        Text(text = uiState.error, modifier = Modifier.padding(15.dp))
                     }
                 }
+
+                else -> {}
             }
         }
     }

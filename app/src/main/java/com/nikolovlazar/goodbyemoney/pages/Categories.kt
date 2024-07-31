@@ -230,7 +230,7 @@ fun Categories(
   })
 }
 
-@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Preview
 @Composable
 fun CategoriesPreview() {
   GoodbyeMoneyTheme {

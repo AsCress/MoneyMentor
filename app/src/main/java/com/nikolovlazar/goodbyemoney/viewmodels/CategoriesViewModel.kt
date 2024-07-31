@@ -28,8 +28,113 @@ class CategoriesViewModel : ViewModel() {
         categories = db.query<Category>().find()
       )
     }
-
     viewModelScope.launch(Dispatchers.IO) {
+      if(db.query<Category>().count().find() == 0L) {
+        db.write {
+          this.copyToRealm(
+            Category(
+              "Banking & Finance",
+              Color.White
+            )
+          )
+        }
+        db.write {
+          this.copyToRealm(
+            Category(
+              "Business Expenses",
+              Color.Red
+            )
+          )
+        }
+        db.write {
+          this.copyToRealm(
+            Category(
+              "Cash Withdrawals",
+              Color.Blue
+            )
+          )
+        }
+        db.write {
+          this.copyToRealm(
+            Category(
+              "Entertainment & Leisure",
+              Color.Cyan
+            )
+          )
+        }
+        db.write {
+          this.copyToRealm(
+            Category(
+              "Food & Dining",
+              Color.Gray
+            )
+          )
+        }
+        db.write {
+          this.copyToRealm(
+            Category(
+              "Healthcare",
+              Color.Green
+            )
+          )
+        }
+        db.write {
+          this.copyToRealm(
+            Category(
+              "Housing & Utilities",
+              Color.Magenta
+            )
+          )
+        }
+        db.write {
+          this.copyToRealm(
+            Category(
+              "Income",
+              Color.Yellow
+            )
+          )
+        }
+        db.write {
+          this.copyToRealm(
+            Category(
+              "Other",
+              Color.LightGray
+            )
+          )
+        }
+        db.write {
+          this.copyToRealm(
+            Category(
+              "Shopping",
+              Color.DarkGray
+            )
+          )
+        }
+        db.write {
+          this.copyToRealm(
+            Category(
+              "Taxes & Government",
+              Color(50, 25, 25)
+            )
+          )
+        }
+        db.write {
+          this.copyToRealm(
+            Category(
+              "Transportation",
+              Color(50, 75, 25)
+            )
+          )
+        }
+        db.write {
+          this.copyToRealm(
+            Category(
+              "Travel",
+              Color(50, 25, 75)
+            )
+          )
+        }
+      }
       db.query<Category>().asFlow().collect { changes ->
         _uiState.update { currentState ->
           currentState.copy(
